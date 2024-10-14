@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar } from "@chakra-ui/avatar";
 import { Box, Text } from "@chakra-ui/layout";
 
-const UserListItem = ({user, handleFunction }) => { //user !notLoggedIn //selected to chat userId
+const UserListItem = ({user, handleFunction }) => { 
   //const { user } = ChatState();
 
   return (

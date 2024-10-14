@@ -100,7 +100,7 @@ const GroupChatModal = ({ children }) => {
 
     try {
       const config = {
-        headers: {/* "Content-type": "application/json", */ Authorization: `Bearer ${user.token}`}//already body jsonType
+        headers: { Authorization: `Bearer ${user.token}`}
       };
       
       const { data } = await axios.post(
@@ -108,14 +108,13 @@ const GroupChatModal = ({ children }) => {
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((selectedUser) => selectedUser._id)), 
-          //server side req.body accepts stringify array of user id
         },
         config
       );
 
-      setChats([data, ...chats]); //recently created chat first
+      setChats([data, ...chats]);
       console.log(data, 'group chat added/created respopnse');
-      onClose(); //modal close on success
+      onClose();
 
       toast({
         title: "New Group Chat Created!",
@@ -180,9 +179,8 @@ const GroupChatModal = ({ children }) => {
               ))}
             </Box>
             {loading ? (
-              // <ChatLoading />
               <div>Loading...</div>
-            ) : ( //top 4 results
+            ) : (
               searchResult
                 ?.slice(0, 4)
                 .map((user) => (

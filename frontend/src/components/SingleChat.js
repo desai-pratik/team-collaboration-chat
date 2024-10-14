@@ -4,7 +4,6 @@ import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
-//import { useHelper } from '../config/helper-hook';
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -17,8 +16,7 @@ import animationData from "../animations/typing.json";
 
 import io from "socket.io-client";
 
-//const ENDPOINT = "http://localhost:5000"; //development
-const ENDPOINT = "https://textalot.herokuapp.com"; //for deployment -production
+const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -32,7 +30,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const toast = useToast();
 
   const { selectedChat, setSelectedChat, user, notification, setNotification } = useContext(ChatContext);
-  //console.log(selectedChat, "selectedChat in chatBox");
 
   const defaultOptions = {
     loop: true,
@@ -89,10 +86,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
 
-        //async func -- wont make newMessage empty instantaneously
-        //ui enhancement -- input to be empty as soon as we hit ender/send
         setNewMessage("");
-
         const { data } = await axios.post(
           "/api/message",
           {
@@ -102,7 +96,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           config
         );
 
-        //setNewMessage("");
         socket.emit("new message", data);
 
         setMessages([...messages, data]);
@@ -128,29 +121,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
 
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     fetchMessages();
-    //whwnever selctedChat changes, fetchAllMessages again for new selectedChat._id
-
-    //just to keep a track
     selectedChatCompare = selectedChat;
-
-    // eslint-disable-next-line
   }, [selectedChat]);
-
-  //console.log(notification, 'notification Bellicon');
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if ( !selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id) {
-
-        // if chat is not selected or doesn't match current chat
         if (!notification.includes(newMessageRecieved)) {
           setNotification([newMessageRecieved, ...notification]);
-          setFetchAgain(!fetchAgain); //updating our chats in our my chats on newMessageRecieved
+          setFetchAgain(!fetchAgain); 
           console.log(notification, "notification bell-icon check");
         }
       } else {
@@ -161,16 +144,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
-
-    //typing animation code
     if (!socketConnected) return;
 
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectedChat._id);
     }
-
-    //debounce/throttle function
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
 
@@ -275,7 +254,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       ) : (
         <Box d="flex" alignItems="center" justifyContent="center" h="100%">
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
-            Click on a user to start chatting
+            Click on a team member to start chatting
           </Text>
         </Box>
       )}

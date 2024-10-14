@@ -6,11 +6,12 @@ import { useState } from "react";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 
 const Signup = () => {
   const [show, setShow] = useState(false);
- 
+
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [confirmpassword, setConfirmpassword] = useState();
@@ -53,7 +54,7 @@ const Signup = () => {
         headers: { "Content-type": "application/json" },
       };
 
-      const { data } = await axios.post( "/api/user", { name, email, password}, config );
+      const { data } = await axios.post("/api/user", { name, email, password }, config);
       console.log(data);
 
       toast({
@@ -69,7 +70,7 @@ const Signup = () => {
       navigate("/chats");
 
     } catch (error) {
-      console.log(error.message);  
+      console.log(error.message);
       toast({
         title: "Error Occured!",
         description: error.response.data.message,
@@ -81,7 +82,7 @@ const Signup = () => {
       setLoading(false);
     }
   };
-    
+
 
   return (
     <VStack spacing="5px">
@@ -109,8 +110,8 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <Button colorScheme='cyan' h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
+            <Button colorScheme='transperent' color="black" h="1.75rem" size="sm" onClick={handleClick}>
+              {show ? <ViewOffIcon /> : <ViewIcon />}
             </Button>
           </InputRightElement>
         </InputGroup>
@@ -124,8 +125,8 @@ const Signup = () => {
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <Button colorScheme='cyan' h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
+            <Button colorScheme='transperent' color="black" h="1.75rem" size="sm" onClick={handleClick}>
+              {show ? <ViewOffIcon /> : <ViewIcon />}
             </Button>
           </InputRightElement>
         </InputGroup>

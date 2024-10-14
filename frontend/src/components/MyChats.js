@@ -8,21 +8,18 @@ import { getSender } from "../config/ChatLogics";
 import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 import { Button } from "@chakra-ui/react";
-//import { useHelper } from '../config/helper-hook';
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = useContext(ChatContext);
-  //const {getSender}=useHelper();
 
   const toast = useToast();
-  
+
   const fetchChats = async () => {
-    // console.log(user._id);
     try {
       const config = {
-        headers: { Authorization: `Bearer ${user.token}`}
+        headers: { Authorization: `Bearer ${user.token}` }
       };
 
       const { data } = await axios.get("/api/chat", config);
@@ -48,10 +45,7 @@ const MyChats = ({ fetchAgain }) => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInformation"))); //chatLogics 
     fetchChats();
-    // eslint-disable-next-line
   }, [fetchAgain]);
-  //fetching chats again witht the updated list of all of our chats...
-  //--when we leave a group our updated list of chats needs to be fetched again
 
   return (
     <Box
@@ -64,42 +58,18 @@ const MyChats = ({ fetchAgain }) => {
       borderRadius="lg"
       borderWidth="1px"
     >
-      <Box
-        pb={3}
-        px={3}
-        fontSize={{ base: "28px", md: "30px" }}
-        fontFamily="Work sans"
-        d="flex"
-        w="100%"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        My Chats
+      <Box d="flex" w="100%" justifyContent="space-between" alignItems="center">
+        <Text fontSize="20px" fontWeight="bold">My Chats</Text>
         <GroupChatModal>
-          <Button
-            d="flex"
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-            rightIcon={<AddIcon />}
-          >
-            New Group Chat
-          </Button>
+          <Button rightIcon={<AddIcon />}>New Group Chat</Button>
         </GroupChatModal>
       </Box>
-      <Box
-        d="flex"
-        flexDir="column"
-        p={3}
-        bg="#F8F8F8"
-        w="100%"
-        h="100%"
-        borderRadius="lg"
-        overflowY="hidden"
-      >
+      <Box d="flex" flexDir="column" p={3} bg="#F8F8F8" w="100%" h="100%" borderRadius="lg" overflowY="hidden">
         {chats ? (
           <Stack overflowY="scroll">
-            {chats.map((chat, i) => (
-              
+            {chats.map((chat) => (
               <Box
+                key={chat._id}
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
                 bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
@@ -107,11 +77,8 @@ const MyChats = ({ fetchAgain }) => {
                 px={3}
                 py={2}
                 borderRadius="lg"
-                key={chat._id}
               >
-                <Text>
-                  {!chat.isGroupChat ? getSender(loggedUser, chat.users) : chat.chatName}
-                </Text>
+                <Text>{!chat.isGroupChat ? getSender(loggedUser, chat.users) : chat.chatName}</Text>
               </Box>
             ))}
           </Stack>

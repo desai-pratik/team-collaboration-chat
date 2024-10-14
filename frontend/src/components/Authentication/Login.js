@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -90,13 +91,8 @@ const Login = () => {
             placeholder="Enter password"
           />
           <InputRightElement width="4.5rem">
-            <Button
-              colorScheme="cyan"
-              h="1.75rem"
-              size="sm"
-              onClick={handleClick}
-            >
-              {show ? "Hide" : "Show"}
+            <Button onClick={handleClick}>
+              {show ? <ViewOffIcon/> : <ViewIcon/>}
             </Button>
           </InputRightElement>
         </InputGroup>
@@ -110,40 +106,7 @@ const Login = () => {
         isLoading={loading}
       >
         Login
-      </Button>
-      <Button
-        fontWeight="bold"
-        variant="solid"
-        colorScheme="yellow"
-        width="100%"
-        onClick={() => {
-          setEmail("guest@test.com");
-          setPassword("guesttest");
-        }}
-      >
-        Guest User Login
-      </Button>
-
-      <Button
-        //fontWeight="bold"
-        variant="solid"
-        colorScheme="cyan"
-        width="100%"
-        onClick={() => {
-          //console.log("video");
-          //navigate("/https://dev.to/siddharthssb11")
-        }}
-      >
-        <a
-          href="https://www.loom.com/share/339d7abfe1924bbd8cb53c0cc3fac551"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Demo-Video"
-          width="100%"
-        >
-          <strong>Demo&nbsp;📽️&nbsp;Video</strong>, Recommended <strong><u>2x SPEED</u></strong>&nbsp;&#10132;
-        </a>
-      </Button>
+      </Button> 
     </VStack>
   );
 };
