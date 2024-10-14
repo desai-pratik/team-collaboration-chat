@@ -7,7 +7,7 @@
     "start": "nodemon backend/server.js",
     "build": "npm install --prefix frontend && npm run build --prefix frontend"
   },
-  "author": "Siddharth Singh Bhadoriya",
+  "author": "Pratik Desai",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
