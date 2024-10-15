@@ -70,7 +70,7 @@ const SideDrawer = () => {
         headers: { Authorization: `Bearer ${user.token}` }
       };
 
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(`https://team-collaboration-chat.onrender.com/api/user?search=${search}`, config);
 
       setLoading(false);
       setSearchResult(data);
@@ -98,7 +98,7 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`/api/chat`, { userId }, config);
+      const { data } = await axios.post(`https://team-collaboration-chat.onrender.com/api/chat`, { userId }, config);
 
       if (!chats.find((chat) => chat._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);

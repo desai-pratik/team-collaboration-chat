@@ -22,7 +22,7 @@ const MyChats = ({ fetchAgain }) => {
         headers: { Authorization: `Bearer ${user.token}` }
       };
 
-      const { data } = await axios.get("/api/chat", config);
+      const { data } = await axios.get("https://team-collaboration-chat.onrender.com/api/chat", config);
       setChats(data);
       console.log(data, 'fetching all users chats in my chats');
 
