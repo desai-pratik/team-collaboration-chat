@@ -42,7 +42,7 @@ const server = app.listen(PORT, console.log(`Server started on port ${PORT}`.yel
 const io = require("socket.io")(server, {
   pingTimeout: 120000,
   cors: {
-    origin: "https://team-collaboration-chat.vercel.app",
+    origin: "https://team-collaboration-chat.onrender.com",
     credentials: true,
   },
 });
