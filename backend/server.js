@@ -14,19 +14,13 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
 const __dirname1 = path.resolve();
-
-app.use(
-  cors({
-    origin: "https://team-collaboration-chat.vercel.app",
-    credentials: true,
-  })
-);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
