@@ -7,18 +7,26 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const cors = require("cors");
 
 dotenv.config();
 connectDB();
 const app = express();
 
-app.use(express.json()); 
+app.use(express.json());
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
 const __dirname1 = path.resolve();
+
+app.use(
+  cors({
+    origin: "https://team-collaboration-chat.vercel.app",
+    credentials: true,
+  })
+);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
@@ -36,7 +44,10 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, console.log(`Server started on port ${PORT}`.yellow.bold));
+const server = app.listen(
+  PORT,
+  console.log(`Server started on port ${PORT}`.yellow.bold)
+);
 
 const io = require("socket.io")(server, {
   pingTimeout: 120000,
@@ -59,7 +70,7 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log("User Joined the selectedChat Room: " + room);
   });
-  
+
   socket.on("typing", (room) => socket.in(room).emit("typing"));
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
@@ -78,5 +89,4 @@ io.on("connection", (socket) => {
     console.log("USER DISCONNECTED");
     socket.leave(userData._id);
   });
-
 });
